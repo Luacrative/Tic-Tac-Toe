@@ -7,12 +7,11 @@ const game = () => {
     // Grid math 
     const checkRow = (row, player) => grid[row].every(placed => placed == player);
     const checkCol = (col, player) => {
-        let allCols = true;
-
-        for (let r = 0; r < ROWS && allCols; r++) 
-            allCols = grid[r][col] == player;
-
-        return allCols;
+        for (let r = 0; r < ROWS; r++)
+            if (grid[r][col] != player)
+                return false;
+        
+        return true;
     }
     
     const checkDiagonals = (row, col, player) => {
@@ -52,13 +51,7 @@ const game = () => {
     
     const placePlayer = (row, col, player) => { 
         grid[row][col] = player;
-        console.log(checkWin(row, col, player));
     };
     
     return {placePlayer};
 };
-
-const test = game();
-test.placePlayer(0, 0, "x");
-test.placePlayer(1, 1, "x");
-test.placePlayer(2, 2, "x");
