@@ -47,8 +47,10 @@ const game = () => {
     };
 
     // Game state 
-    const checkWin = (row, col, player) => checkRow(row, player) || checkCol(col, player) || checkDiagonals(row, col, player);
-    
+    const checkWin = (row, col, player) => {
+        return checkRow(row, player) || checkCol(col, player) || checkDiagonals(row, col, player);
+    };
+
     const placePlayer = (row, col, player) => { 
         grid[row][col] = player;
     };
