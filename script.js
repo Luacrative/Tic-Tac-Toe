@@ -15,10 +15,9 @@ const game = () => {
     }
     
     const checkDiagonals = (row, col, player) => {
-        let diagonals = 1;
-
-        // Iterative instead of recursive for O(1) space 
         const runDiagonally = (row, col, rise, run) => {
+            let diagonals = 0;
+    
             while (true) { 
                 row += rise;
                 col += run;
@@ -31,19 +30,14 @@ const game = () => {
                 
                 break;
             }
+    
+            return diagonals;
         };
+    
+        const positive = 1 + runDiagonally(row, col, -1, -1) + runDiagonally(row, col, 1, 1);
+        const negative = 1 + runDiagonally(row, col, 1, -1) + runDiagonally(row, col, -1, 1);
 
-        if (row != 0) {
-            runDiagonally(row, col, -1, -1, player); // Up left
-            runDiagonally(row, col, -1, 1, player); // Up right
-        }
-
-        if (row != ROWS) { 
-            runDiagonally(row, col, 1, -1, player); // Down left
-            runDiagonally(row, col, 1, 1, player); // Down right
-        }
-
-        return diagonals == ROWS;
+        return (positive == ROWS) || (negative == ROWS);
     };
 
     // Game state 
