@@ -46,7 +46,12 @@ const game = () => {
     };
 
     const placePlayer = (row, col, player) => { 
+        if (grid[row][col] != "")  
+            return false; 
+
         grid[row][col] = player;
+        
+        return true; 
     };
     
     return {placePlayer};
