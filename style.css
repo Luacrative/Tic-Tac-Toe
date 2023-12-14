@@ -1,0 +1,63 @@
+:root { 
+    --x-color: rgb(219, 94, 63);
+    --o-color: rgb(52, 121, 199);
+}
+
+body { 
+    height: 100vh;
+    margin: 0 auto;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    background-color: rgb(20, 20, 20);
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1.title { 
+    font-size: 3em;
+    text-transform: uppercase;
+}
+
+h2 { 
+    font-size: 2.5em;
+    margin: 5px;
+}
+
+#player-select { 
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.player-option { 
+    display: inline;
+}
+
+.player-option label { 
+    display: inline-block;
+    font-size: 4em;
+    margin: 5px;
+
+    transition: transform 0.25s;
+}
+
+.player-option label:hover { 
+    cursor: pointer;
+    transform: scale(1.25);
+}
+
+input[type = "radio"] {
+    display: none;
+}
+
+.x-color { 
+    color: var(--x-color);
+}
+
+.o-color { 
+    color: var(--o-color);
+}
