@@ -56,17 +56,16 @@ input[type = "radio"] {
 
 #game { 
     display: none;
-    
     position: relative;
     top: 50%;
     transform: translate(0, -50%);
 }
 
-#grid {
+#board {
     display: grid;
     grid-template-columns: repeat(3, 200px);
     grid-template-rows: repeat(3, 200px);
-    grid-auto-flow: column;
+    grid-auto-rows: 200px;
 }
 
 .cell { 

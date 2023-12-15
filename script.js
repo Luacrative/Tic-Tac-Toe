@@ -1,6 +1,44 @@
 const ROWS = 3;
 const COLS = 3;
 
+const board = document.querySelector("#board");
+
+const generateBoard = (rows, cols) => { 
+    clearBoard();
+
+    board.style.gridTemplateRows = `repeat(${rows}, 200px)`;
+    board.style.gridTemplateColumns = `repeat(${cols}, 200px)`;
+
+    for (let r = 0; r < rows; r++) { 
+        const noTop = r == 0;
+        const noBot = r == rows - 1;
+
+        for (let c = 0; c < cols; c++) { 
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            
+            if (noTop) 
+                cell.classList.add("no-top"); 
+            else if (noBot) 
+                cell.classList.add("no-bot");
+
+            if (c == 0)  
+                cell.classList.add("no-left");
+            else if (c == cols - 1) 
+                cell.classList.add("no-right");
+        
+            cell.setAttribute("row", r);
+            cell.setAttribute("col", c);
+
+            board.appendChild(cell);
+        }
+    }
+};
+
+const clearBoard = () => { 
+    document.querySelectorAll(".cell").forEach(cell => cell.remove());
+};
+
 const game = () => {
     const grid = Array.from(Array(ROWS), () => new Array(COLS).fill(""));
     
@@ -56,3 +94,5 @@ const game = () => {
     
     return {placePlayer};
 };
+
+generateBoard(ROWS, COLS);
