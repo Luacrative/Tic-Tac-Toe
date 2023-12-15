@@ -54,6 +54,48 @@ input[type = "radio"] {
     display: none;
 }
 
+#game { 
+    display: none;
+    
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    grid-template-rows: repeat(3, 200px);
+    grid-auto-flow: column;
+}
+
+.cell { 
+    height: 100%;
+    font-size: 4em;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid white;
+}
+
+.cell.no-top { 
+    border-top: 0;
+}
+
+.cell.no-left { 
+    border-left: 0;
+}
+
+.cell.no-right { 
+    border-right: 0;
+}
+
+.cell.no-bot { 
+    border-bottom: 0;
+}
+
 .x-color { 
     color: var(--x-color);
 }
