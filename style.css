@@ -27,10 +27,16 @@ h2 {
     margin: 5px;
 }
 
-#player-select { 
+.center { 
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+
     position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .player-option { 
@@ -52,6 +58,38 @@ h2 {
 
 input[type = "radio"] {
     display: none;
+}
+
+.scale-transition { 
+    transition: transform 0.2s;
+}
+
+#mode-options { 
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+.mode-option { 
+    padding: 50px 45px;
+    border: 2px solid silver;
+    border-radius: 20px;
+    font-size: 2em;
+
+    transition: 0.15s;
+}
+
+.hidden { 
+    transform: scale(0);
+}
+
+.mode-option:hover { 
+    cursor: pointer;
+    border-radius: 15px;
+    border-color: white;
+    transform: scale(1.05);
 }
 
 #game { 

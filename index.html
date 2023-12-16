@@ -4,25 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" href = "style.css">
-    <script src = "script.js" defer></script>
+    <script type = "module" src = "scripts/main.js" defer></script>
     <title>Tic Tac Toe</title>
 </head>
 <body>
-    <div id = "start-screen">
+    <div id = "menu">
         <div>
             <h1 class = "title">Tic-Tac-Toe</h1>
         </div>
-        <div id = "player-select">
+        
+        <div id = "player-select" class = "center">
             <h2>Select Player</h2>
             
             <div class = "player-option x-color">
                 <label for = "player-x"><span>x</span></label>
-                <input type = "radio" name = "player-option" id = "player-x">
+                <input type = "radio" name = "player-option" id = "player-x" value = "x">
             </div>
 
             <div class = "player-option o-color">
-                <label for = "player-y"><span>o</span></label>
-                <input type = "radio" name = "player-option" id = "player-y">
+                <label for = "player-o"><span>o</span></label>
+                <input type = "radio" name = "player-option" id = "player-o" value = "o">
+            </div>
+        </div>
+        
+        <div id = "mode-select" class = "center hidden">
+            <h2>Select Board</h2>
+
+            <div id = "mode-options">
+                <div class = "mode-option" value = "3">3x3</div>
+                <div class = "mode-option" value = "4">4x4</div>
+                <div class = "mode-option" value = "5">5x5</div>
             </div>
         </div>
     </div>
