@@ -1,6 +1,6 @@
 // Dependencies 
-import {fillBoard, clearBoard} from "./board.js";
-import {start} from "./game.js";
+import {createBoard, removeBoard} from "./board.js";
+import startGame from "./game.js";
 
 // Variables 
 const menu = document.querySelector("#menu");
@@ -8,30 +8,31 @@ const playerSelect = document.querySelector("#player-select");
 const playerOptions = document.querySelectorAll(`input[name = "player-option"`);
 const modeSelect = document.querySelector("#mode-select");
 const modeOptions = document.querySelectorAll(".mode-option");
-const game = document.querySelector("#game");
 const board = document.querySelector("#board");
+const game = document.querySelector("#game");
 
 var playerSelected;
+var curGame; 
 
 // Functions 
 const selectPlayer = (player) => { 
     playerSelected = player;
     
-    playerSelect.classList.add("hidden");
+    playerSelect.classList.add("scale-zero");
     modeSelect.classList.add("scale-transition");
-    modeSelect.classList.remove("hidden");
+    modeSelect.classList.remove("scale-zero");
 };
 
 const selectMode = (mode) => { 
-    const size = parseInt(mode);
-
-    fillBoard(board, size, size);
-
     modeSelect.classList.remove("scale-transition");
-    modeSelect.classList.add("hidden");
-
+    modeSelect.classList.add("scale-zero");
+    
     menu.style.display = "none";
     game.style.display = "flex";
+    
+    const size = parseInt(mode);
+    const cells = createBoard(board, size, size);
+    curGame = startGame(cells, playerSelected);
 };
 
 // Event listeners

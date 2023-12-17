@@ -1,13 +1,15 @@
-
-const fillBoard = (board, rows, cols) => { 
-    clearBoard();
+const createBoard = (board, rows, cols) => { 
+    removeBoard();
 
     board.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
     board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
+    const cells = []; 
+
     for (let r = 0; r < rows; r++) { 
         const noTop = r == 0;
         const noBot = r == rows - 1;
+        const rowCells = [];
 
         for (let c = 0; c < cols; c++) { 
             const cell = document.createElement("div");
@@ -23,16 +25,18 @@ const fillBoard = (board, rows, cols) => {
             else if (c == cols - 1) 
                 cell.classList.add("no-right");
         
-            cell.setAttribute("row", r);
-            cell.setAttribute("col", c);
-
             board.appendChild(cell);
+            rowCells.push(cell); 
         }
+
+        cells.push(rowCells);
     }
+
+    return {cells, rows, cols} 
 };
 
-const clearBoard = () => { 
+const removeBoard = () => { 
     document.querySelectorAll(".cell").forEach(cell => cell.remove());
 };
 
-export {fillBoard, clearBoard};
+export {createBoard, removeBoard};

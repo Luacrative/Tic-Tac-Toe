@@ -1,4 +1,5 @@
-const game = () => {
+const newGame = (board) => {
+    const ROWS = board.rows, COLS = board.cols; 
     const grid = Array.from(Array(ROWS), () => new Array(COLS).fill(""));
     
     // Grid math 
@@ -18,13 +19,13 @@ const game = () => {
             while (true) { 
                 row += rise;
                 col += run;
-                
-                if (row >= 0 && row < ROWS && col >= 0 && col < COLS)
+
+                if (row >= 0 && row < ROWS && col >= 0 && col < COLS) 
                     if (grid[row][col] == player) {
                         diagonals++;
                         continue;
                     }
-                
+
                 break;
             }
     
@@ -47,15 +48,27 @@ const game = () => {
             return false; 
 
         grid[row][col] = player;
-        
+
+        const cell = board.cells[row][col];
+        cell.textContent = player;
+        cell.classList.add(player + "-color");
+
         return true; 
     };
     
     return {placePlayer};
 };
 
-const start = () => { 
+const startGame = (board, playerSelected) => { 
+    const session = newGame(board); 
+    
+    for (let row = 0; row < board.rows; row++)
+        for (let col = 0; col < board.cols; col++) 
+            board.cells[row][col].addEventListener("click", () => { 
+                session.placePlayer(row, col, playerSelected);
+            });
 
+    return session; 
 };
 
-export {start};
+export default startGame;
