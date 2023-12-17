@@ -1,13 +1,9 @@
-const gameArea = [600, 600];
 
 const fillBoard = (board, rows, cols) => { 
     clearBoard();
 
-    const maxWidth = gameArea[0];
-    const maxHeight = gameArea[1];
-
-    board.style.gridTemplateRows = `repeat(${rows}, ${maxHeight / rows}px)`;
-    board.style.gridTemplateColumns = `repeat(${cols}, ${maxWidth / rows}px)`;
+    board.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
     for (let r = 0; r < rows; r++) { 
         const noTop = r == 0;
