@@ -61,11 +61,15 @@ const newGame = (board) => {
 
 const startGame = (board, playerSelected) => { 
     const session = newGame(board); 
-    
+    session.isTurn = true; 
+
     for (let row = 0; row < board.rows; row++)
         for (let col = 0; col < board.cols; col++) 
             board.cells[row][col].addEventListener("click", () => { 
+                if (!session.isTurn) return;
+
                 session.placePlayer(row, col, playerSelected);
+                session.isTurn = false;
             });
 
     return session; 
