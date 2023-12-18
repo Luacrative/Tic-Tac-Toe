@@ -2,6 +2,8 @@ const newGame = (board) => {
     const ROWS = board.rows, COLS = board.cols; 
     const grid = Array.from(Array(ROWS), () => new Array(COLS).fill(""));
     
+    var turn = "x";
+
     // Grid math 
     const checkRow = (row, player) => grid[row].every(placed => placed == player);
     const checkCol = (col, player) => {
@@ -44,7 +46,7 @@ const newGame = (board) => {
     };
 
     const placePlayer = (row, col, player) => { 
-        if (grid[row][col] != "")  
+        if (turn != player || grid[row][col] != "")  
             return false; 
 
         grid[row][col] = player;
@@ -52,6 +54,8 @@ const newGame = (board) => {
         const cell = board.cells[row][col];
         cell.textContent = player;
         cell.classList.add(player + "-color");
+
+        turn = player == "x" ? "o" : "x";
 
         return true; 
     };
@@ -61,15 +65,11 @@ const newGame = (board) => {
 
 const startGame = (board, playerSelected) => { 
     const session = newGame(board); 
-    session.isTurn = true; 
 
     for (let row = 0; row < board.rows; row++)
         for (let col = 0; col < board.cols; col++) 
             board.cells[row][col].addEventListener("click", () => { 
-                if (!session.isTurn) return;
-
                 session.placePlayer(row, col, playerSelected);
-                session.isTurn = false;
             });
 
     return session; 
