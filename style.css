@@ -110,8 +110,9 @@ input[type = "radio"] {
 }
 
 .cell { 
-    font-size: 4em;
-    
+    font-size: 6em;
+    text-transform: uppercase;
+
     display: flex;
     align-items: center;
     justify-content: center;
