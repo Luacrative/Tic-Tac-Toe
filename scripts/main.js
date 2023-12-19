@@ -1,6 +1,6 @@
 // Dependencies 
 import {createBoard, removeBoard} from "./board.js";
-import startGame from "./game.js";
+import newGame from "./game.js";
 
 // Variables 
 const menu = document.querySelector("#menu");
@@ -32,7 +32,7 @@ const selectMode = (mode) => {
     
     const size = parseInt(mode);
     const cells = createBoard(board, size, size);
-    curGame = startGame(cells, playerSelected);
+    curGame = newGame(cells, playerSelected);
 };
 
 // Event listeners

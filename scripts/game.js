@@ -1,78 +1,79 @@
-const newGame = (board) => {
-    const ROWS = board.rows, COLS = board.cols; 
-    const grid = Array.from(Array(ROWS), () => new Array(COLS).fill(""));
-    
-    var turn = "x";
+import gridState from "./gridState.js";
+import opponent from "./opponent.js"; 
 
-    // Grid math 
-    const checkRow = (row, player) => grid[row].every(placed => placed == player);
-    const checkCol = (col, player) => {
-        for (let r = 0; r < ROWS; r++)
-            if (grid[r][col] != player)
-                return false;
-        
-        return true;
+class player {
+    constructor(name, startTurn, endTurn) { 
+        this.name = name;
+        this.state = undefined;
+        this.startTurn = startTurn || this.connectBoardClick;
+        this.endTurn = endTurn || this.disconnectBoardClick;
+
+        this.callbacks = [];
     }
-    
-    const checkDiagonals = (row, col, player) => {
-        const runDiagonally = (row, col, rise, run) => {
-            let diagonals = 0;
-    
-            while (true) { 
-                row += rise;
-                col += run;
 
-                if (row >= 0 && row < ROWS && col >= 0 && col < COLS) 
-                    if (grid[row][col] == player) {
-                        diagonals++;
-                        continue;
-                    }
-
-                break;
+    connectBoardClick(board, place) {
+        for (let row = 0; row < board.rows; row++) 
+            for (let col = 0; col < board.cols; col++) {
+                const callback = () => place(row, col, this.name);
+                const cell = board.cells[row][col];
+                
+                this.callbacks.push([cell, callback]);
+                cell.addEventListener("click", callback);
             }
-    
-            return diagonals;
-        };
-    
-        const positive = 1 + runDiagonally(row, col, -1, -1) + runDiagonally(row, col, 1, 1);
-        const negative = 1 + runDiagonally(row, col, 1, -1) + runDiagonally(row, col, -1, 1);
+    }
 
-        return (positive == ROWS) || (negative == ROWS);
-    };
+    disconnectBoardClick(board) { 
+        for (const [cell, callback] of this.callbacks)  
+            cell.removeEventListener("click", callback);
 
-    // Game state 
-    const checkWin = (row, col, player) => {
-        return checkRow(row, player) || checkCol(col, player) || checkDiagonals(row, col, player);
+        this.callbacks = [];
+    }
+}
+
+const game = (board) => {
+    const grid = Array.from(Array(board.rows), () => new Array(board.cols).fill(""));
+    const state = gridState(board.rows, board.cols, grid);
+    
+    const players = [];
+    var turnIndex = 0;
+
+    const addPlayer = (player) => { 
+        player.state = state;   
+        players.push(player);
     };
 
     const placePlayer = (row, col, player) => { 
-        if (turn != player || grid[row][col] != "")  
-            return false; 
-
-        grid[row][col] = player;
-
+        if (player != players[turnIndex].name || grid[row][col] != "")  
+            return; 
+    
         const cell = board.cells[row][col];
         cell.textContent = player;
         cell.classList.add(player + "-color");
 
-        turn = player == "x" ? "o" : "x";
+        grid[row][col] = player;
+        players[turnIndex].endTurn();
 
-        return true; 
+        turnIndex = (turnIndex + 1) % players.length;
+        players[turnIndex].startTurn(board, placePlayer);
     };
     
-    return {placePlayer};
+    const start = () => { 
+        players[turnIndex].startTurn(board, placePlayer);
+    };
+
+    return {addPlayer, placePlayer, start};
 };
 
-const startGame = (board, playerSelected) => { 
-    const session = newGame(board); 
+const newGame = (board, playerSelected) => { 
+    const session = game(board);
+    const you = new player(playerSelected); 
+    const enemy = new player(playerSelected == "x" ? "o" : "x"); 
 
-    for (let row = 0; row < board.rows; row++)
-        for (let col = 0; col < board.cols; col++) 
-            board.cells[row][col].addEventListener("click", () => { 
-                session.placePlayer(row, col, playerSelected);
-            });
+    session.addPlayer(you);
+    session.addPlayer(enemy);
+    session.start(); 
 
     return session; 
 };
 
-export default startGame;
+export default newGame;
