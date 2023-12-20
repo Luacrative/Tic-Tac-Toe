@@ -60,11 +60,7 @@ input[type = "radio"] {
     display: none;
 }
 
-.scale-transition { 
-    transition: transform 0.2s;
-}
-
-#mode-options { 
+#mode-options, #board-options { 
     margin-top: 25px;
     display: flex;
     align-items: center;
@@ -72,22 +68,34 @@ input[type = "radio"] {
     gap: 1em;
 }
 
-.mode-option { 
-    padding: 12% 10%;
+#mode-options { 
+    flex-direction: column;
+}
+
+.mode-option, .board-option { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: 2px solid silver;
-    border-radius: 20px;
+    border-radius: 15px;
     font-size: 2em;
 
     transition: 0.15s;
 }
 
-.scale-zero { 
-    transform: scale(0);
+.mode-option { 
+    min-width: 175px;
+    padding: 5% 10%;
 }
 
-.mode-option:hover { 
+.board-option { 
+    padding: 12% 10%;
+}
+
+.mode-option:hover, .board-option:hover { 
     cursor: pointer;
-    border-radius: 15px;
+    border-radius: 10px;
     border-color: white;
     transform: scale(1.05);
 }
@@ -143,6 +151,14 @@ input[type = "radio"] {
 
 .o-color { 
     color: var(--o-color);
+}
+
+.scale-zero { 
+    transform: scale(0);
+}
+
+.scale-transition { 
+    transition: transform 0.2s;
 }
 
 @media screen and (max-width: 600px) {

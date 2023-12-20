@@ -1,5 +1,4 @@
 // Dependencies 
-import {createBoard, removeBoard} from "./board.js";
 import newGame from "./game.js";
 
 // Variables 
@@ -8,15 +7,15 @@ const playerSelect = document.querySelector("#player-select");
 const playerOptions = document.querySelectorAll(`input[name = "player-option"`);
 const modeSelect = document.querySelector("#mode-select");
 const modeOptions = document.querySelectorAll(".mode-option");
-const board = document.querySelector("#board");
+const boardSelect = document.querySelector("#board-select");
+const boardOptions = document.querySelectorAll(".board-option");
 const game = document.querySelector("#game");
 
-var playerSelected;
-var curGame; 
+const settings = {};
 
 // Functions 
 const selectPlayer = (player) => { 
-    playerSelected = player;
+    settings.player1 = player;
     
     playerSelect.classList.add("scale-zero");
     modeSelect.classList.add("scale-transition");
@@ -24,15 +23,32 @@ const selectPlayer = (player) => {
 };
 
 const selectMode = (mode) => { 
-    modeSelect.classList.remove("scale-transition");
+    settings.mode = mode; 
+
     modeSelect.classList.add("scale-zero");
+    boardSelect.classList.add("scale-transition");
+    boardSelect.classList.remove("scale-zero");
+};
+
+const selectBoard = (board) => { 
+    settings.size = board;
+
+    boardSelect.classList.remove("scale-transition");
+    boardSelect.classList.add("scale-zero");
     
+    startGame();
+};
+
+const startGame = () => { 
     menu.style.display = "none";
     game.style.display = "flex";
-    
-    const size = parseInt(mode);
-    const cells = createBoard(board, size, size);
-    curGame = newGame(cells, playerSelected);
+
+    const session = newGame(settings);
+    session.onGameEnd((winner) => { 
+        console.log(winner);
+    });
+
+    session.start(); 
 };
 
 // Event listeners
@@ -42,4 +58,9 @@ playerOptions.forEach(option => {
 
 modeOptions.forEach(option => { 
     option.addEventListener("click", () => selectMode(option.getAttribute("value")));
+});
+
+boardOptions.forEach(option => { 
+    const size = parseInt(option.getAttribute("value"));
+    option.addEventListener("click", () => selectBoard(size));
 });

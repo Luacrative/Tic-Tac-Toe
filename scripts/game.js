@@ -1,77 +1,68 @@
+import {createBoard, removeBoard} from "./board.js";
 import gridState from "./gridState.js";
-import opponent from "./opponent.js"; 
+import player from "./player.js";
 
-class player {
-    constructor(name, startTurn, endTurn) { 
-        this.name = name;
-        this.state = undefined;
-        this.startTurn = startTurn || this.connectBoardClick;
-        this.endTurn = endTurn || this.disconnectBoardClick;
-
-        this.callbacks = [];
-    }
-
-    connectBoardClick(board, place) {
-        for (let row = 0; row < board.rows; row++) 
-            for (let col = 0; col < board.cols; col++) {
-                const callback = () => place(row, col, this.name);
-                const cell = board.cells[row][col];
-                
-                this.callbacks.push([cell, callback]);
-                cell.addEventListener("click", callback);
-            }
-    }
-
-    disconnectBoardClick(board) { 
-        for (const [cell, callback] of this.callbacks)  
-            cell.removeEventListener("click", callback);
-
-        this.callbacks = [];
-    }
-}
-
+const makeGrid = (board) => Array.from(Array(board.rows), () => new Array(board.cols).fill(""));
 const game = (board) => {
-    const grid = Array.from(Array(board.rows), () => new Array(board.cols).fill(""));
-    const state = gridState(board.rows, board.cols, grid);
-    
+    const states = [gridState(makeGrid(board))];
     const players = [];
     var turnIndex = 0;
-
-    const addPlayer = (player) => { 
-        player.state = state;   
+    var gameEndCallback;
+    
+    const addPlayer = player => { 
+        const state = gridState(makeGrid(board));   
+        states.push(state);
+        
+        player.state = state;
+        player.board = board;
         players.push(player);
+    };
+    
+    const onGameEnd = callback => { 
+        gameEndCallback = callback;
     };
 
     const placePlayer = (row, col, player) => { 
-        if (player != players[turnIndex].name || grid[row][col] != "")  
-            return; 
+        if (player != players[turnIndex].name || states[0].getCell(row, col) != "") return; 
     
         const cell = board.cells[row][col];
         cell.textContent = player;
         cell.classList.add(player + "-color");
 
-        grid[row][col] = player;
+        for (const state of states)
+            state.setCell(row, col, player);
+        
         players[turnIndex].endTurn();
 
+        const winner = states[0].isWinner(row, col, player); 
+        if (winner || states[0].isStale()) { 
+            gameEndCallback(winner && player); 
+            return; 
+        }
+        
         turnIndex = (turnIndex + 1) % players.length;
-        players[turnIndex].startTurn(board, placePlayer);
+        players[turnIndex].startTurn(placePlayer, board);
     };
     
     const start = () => { 
-        players[turnIndex].startTurn(board, placePlayer);
+        players[turnIndex].startTurn(placePlayer, board);
     };
 
-    return {addPlayer, placePlayer, start};
+    return {addPlayer, placePlayer, onGameEnd, start};
 };
 
-const newGame = (board, playerSelected) => { 
-    const session = game(board);
-    const you = new player(playerSelected); 
-    const enemy = new player(playerSelected == "x" ? "o" : "x"); 
 
-    session.addPlayer(you);
-    session.addPlayer(enemy);
-    session.start(); 
+const getSymbol = chosen => chosen == "x" ? "o" : "x";
+const newGame = settings => {  
+    const player1 = new player(settings.player1); 
+    const player2 = new player(getSymbol(settings.player1));
+    
+    if (settings.mode == "2") 
+        player2.makeBot(player1.name);
+
+    const session = game(createBoard(board, settings.size, settings.size));
+    session.addPlayer(player1);
+    session.addPlayer(player2);
 
     return session; 
 };
