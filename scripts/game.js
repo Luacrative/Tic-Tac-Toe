@@ -1,6 +1,6 @@
 import {createBoard, removeBoard} from "./board.js";
 import gridState from "./gridState.js";
-import player from "./player.js";
+import {player, bot} from "./player.js";
 
 const makeGrid = (board) => Array.from(Array(board.rows), () => new Array(board.cols).fill(""));
 const game = (board) => {
@@ -55,11 +55,8 @@ const game = (board) => {
 const getSymbol = chosen => chosen == "x" ? "o" : "x";
 const newGame = settings => {  
     const player1 = new player(settings.player1); 
-    const player2 = new player(getSymbol(settings.player1));
-    
-    if (settings.mode == "2") 
-        player2.makeBot(player1.name);
-
+    const player2 = settings.mode == "2" ? new bot(getSymbol(player1.name), player1.name) : new player(getSymbol(player1.name));
+        
     const session = game(createBoard(board, settings.size, settings.size));
     session.addPlayer(player1);
     session.addPlayer(player2);
