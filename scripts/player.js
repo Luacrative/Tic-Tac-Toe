@@ -2,6 +2,7 @@ class player {
     constructor(name) { 
         this.name = name;
         this.state = undefined;
+        this.board = undefined;
         this.callbacks = [];
     }
 
