@@ -48,7 +48,7 @@ const game = (board) => {
         players[turnIndex].startTurn(placePlayer, board);
     };
 
-    return {addPlayer, placePlayer, onGameEnd, start};
+    return {addPlayer, onGameEnd, start};
 };
 
 

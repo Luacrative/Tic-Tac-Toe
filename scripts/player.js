@@ -1,8 +1,8 @@
 class player {
-    constructor(name) { 
+    constructor(name, state, board) { 
         this.name = name;
-        this.state = undefined;
-        this.board = undefined;
+        this.state = state;
+        this.board = board;
         this.callbacks = [];
     }
 
