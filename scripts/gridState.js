@@ -64,5 +64,5 @@ export default (grid) => {
     const isWinner = (row, col, player) => hasRow(row, player) || hasCol(col, player) || hasDiagonal(row, col, player);
     const isStale = () => getEmptyCells().length == 0;
 
-    return {rows, cols, getEmptyCells, getCell, setCell, backTrack, isWinner, isStale}
+    return {getEmptyCells, getCell, setCell, backTrack, isWinner, isStale}
 };
