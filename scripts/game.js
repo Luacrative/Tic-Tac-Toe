@@ -22,6 +22,11 @@ const game = (board) => {
         gameEndCallback = callback;
     };
 
+    const endGame = winner => { 
+        removeBoard();
+        gameEndCallback(winner);
+    };
+
     const placePlayer = (row, col, player) => { 
         if (player != players[turnIndex].name || states[0].getCell(row, col) != "") return; 
     
@@ -36,7 +41,7 @@ const game = (board) => {
 
         const winner = states[0].isWinner(row, col, player); 
         if (winner || states[0].isStale()) { 
-            gameEndCallback(winner && player); 
+            setTimeout(endGame, 500, winner && player);
             return; 
         }
         

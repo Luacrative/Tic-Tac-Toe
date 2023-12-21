@@ -44,16 +44,46 @@ const startGame = () => {
     game.style.display = "flex";
 
     const session = newGame(settings);
-    session.onGameEnd((winner) => { 
-        console.log(winner);
-    });
-
+    session.onGameEnd(resultScreen);
     session.start(); 
+};
+
+const resultScreen = winner => {
+    const resultScreen = document.querySelector("#result-screen");
+    resultScreen.classList.add("scale-transition");
+    resultScreen.classList.remove("scale-zero");
+    
+    const winnerText = document.querySelector("#winner");
+    if (winner) { 
+        winnerText.classList.add(`${winner}-color`);
+        winnerText.textContent = winner;
+    } else { 
+        winnerText.removeAttribute("class");
+        winnerText.textContent = "Nobody"
+    }
+
+    const resetButton = document.querySelector("#play-again");
+    
+    const playAgain = () => { 
+        resetButton.removeEventListener("click", playAgain);
+        
+        menu.style.display = "flex";
+        game.style.display = "none";
+        
+        setTimeout(() => {
+            resultScreen.classList.add("scale-zero");
+            resultScreen.classList.remove("scale-transition");
+                
+            playerSelect.classList.remove("scale-zero");
+        }, 100);        
+    };
+
+    resetButton.addEventListener("click", playAgain);
 };
 
 // Event listeners
 playerOptions.forEach(option => {
-    option.addEventListener("change", () => selectPlayer(option.value));
+    option.addEventListener("click", () => selectPlayer(option.value));
 });
 
 modeOptions.forEach(option => { 
