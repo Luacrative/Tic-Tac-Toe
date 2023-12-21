@@ -185,4 +185,8 @@ input[type = "radio"] {
     #board {
         width: 250px;
     }
+
+    .cell {
+        font-size: 2em;
+    }
 }
