@@ -204,9 +204,11 @@ a {
     align-items: center;
     gap: 0.6em;
     text-decoration: none;
+    color: white;
 }
 
 a:visited { 
+    text-decoration: none;
     color: inherit;
 }
 

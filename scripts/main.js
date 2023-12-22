@@ -50,6 +50,8 @@ const startGame = () => {
 };
 
 const resultScreen = winner => {
+    game.style.display = "none";
+
     const resultScreen = document.querySelector("#result-screen");
     resultScreen.classList.add("scale-transition");
     resultScreen.classList.remove("scale-zero");
@@ -69,7 +71,6 @@ const resultScreen = winner => {
         resetButton.removeEventListener("click", playAgain);
         
         menu.style.display = "flex";
-        game.style.display = "none";
         
         setTimeout(() => {
             resultScreen.classList.add("scale-zero");
