@@ -58,8 +58,8 @@ class bot extends player {
 
             state.backTrack();
         }
-
-        placePlayer(cells[0][0], cells[0][1], name);
+        
+        setTimeout(placePlayer, (Math.random() * 250) + 150, cells[0][0], cells[0][1], name);
     }
 }
 

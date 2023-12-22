@@ -45,6 +45,7 @@ const startGame = () => {
 
     const session = newGame(settings);
     session.onGameEnd(resultScreen);
+    session.onTurnStart(updateTurn);
     session.start(); 
 };
 
@@ -79,6 +80,13 @@ const resultScreen = winner => {
     };
 
     resetButton.addEventListener("click", playAgain);
+};
+
+const updateTurn = turn => { 
+    const turnText = document.querySelector("#player-turn"); 
+    turnText.textContent = turn; 
+    turnText.removeAttribute("class");
+    turnText.classList.add(`${turn}-color`);
 };
 
 // Event listeners

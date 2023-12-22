@@ -105,6 +105,12 @@ input[type = "radio"] {
     position: relative;
     top: 50%;
     transform: translate(0, -50%);
+    flex-direction: column;
+}
+
+#turn { 
+    margin-bottom: 0.5em;
+    text-transform: capitalize;
 }
 
 #board {

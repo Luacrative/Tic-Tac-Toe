@@ -7,8 +7,9 @@ const game = (board) => {
     const states = [gridState(makeGrid(board))];
     const players = [];
     var turnIndex = 0;
-    var gameEndCallback;
-    
+    var gameEndCallback = () => {};
+    var turnChangeCallback = () => {};
+
     const addPlayer = player => { 
         const state = gridState(makeGrid(board));   
         states.push(state);
@@ -18,9 +19,8 @@ const game = (board) => {
         players.push(player);
     };
     
-    const onGameEnd = callback => { 
-        gameEndCallback = callback;
-    };
+    const onGameEnd = callback => gameEndCallback = callback;
+    const onTurnStart = callback => turnChangeCallback = callback;
 
     const endGame = winner => { 
         removeBoard();
@@ -29,8 +29,8 @@ const game = (board) => {
 
     const placePlayer = (row, col, player) => { 
         if (player != players[turnIndex].name || states[0].getCell(row, col) != "") return; 
-    
-        const cell = board.cells[row][col];
+
+        const cell = board.cells[row][col]; 
         cell.textContent = player;
         cell.classList.add(player + "-color");
 
@@ -44,16 +44,18 @@ const game = (board) => {
             setTimeout(endGame, 500, winner && player);
             return; 
         }
-        
+                
         turnIndex = (turnIndex + 1) % players.length;
+        turnChangeCallback(players[turnIndex].name);
         players[turnIndex].startTurn(placePlayer, board);
     };
     
     const start = () => { 
+        turnChangeCallback(players[turnIndex].name);
         players[turnIndex].startTurn(placePlayer, board);
     };
 
-    return {addPlayer, onGameEnd, start};
+    return {addPlayer, onGameEnd, onTurnStart, start};
 };
 
 
