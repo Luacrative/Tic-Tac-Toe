@@ -5,6 +5,7 @@
 
 body { 
     height: 100vh;
+    overflow: hidden;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -186,6 +187,29 @@ input[type = "radio"] {
     border-radius: 10px;
     transform: scale(1.1);
 }
+
+img.small { 
+    width: 2em;
+}
+
+footer { 
+    height: 3.5em;
+    position: fixed;
+    bottom: 0;
+}
+
+a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6em;
+    text-decoration: none;
+}
+
+a:visited { 
+    color: inherit;
+}
+
 
 @media screen and (max-width: 600px) {
     #board {
